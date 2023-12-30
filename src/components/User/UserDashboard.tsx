@@ -4,11 +4,15 @@ import { getQuestions, addAnswer, getAnswers } from "../../utils/API";
 const UserDashboard: React.FC = () => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+  const [previousAnswers, setPreviousAnswers] = useState<{
+    [key: number]: string[];
+  }>({});
 
   useEffect(() => {
     // Fetch questions on component mount
     setQuestions(getQuestions());
 
+    // Fetch answers from localStorage
     const storedAnswers = getAnswers();
     const answersObj = storedAnswers.reduce((acc: any, answer: any) => {
       const { questionId, answerText } = answer;
@@ -18,31 +22,60 @@ const UserDashboard: React.FC = () => {
       acc[questionId].push(answerText);
       return acc;
     }, {});
-    setAnswers(answersObj);
+    setPreviousAnswers(answersObj);
   }, []);
 
   const handleAnswerChange = (questionId: number, answer: string) => {
-    setAnswers({ ...answers, [questionId]: answer });
+    setAnswers({
+      ...answers,
+      [questionId]: answer,
+    });
   };
 
   const handleSubmitAnswer = (questionId: number) => {
-    // Simulated API call to submit the answer
-    console.log(
-      `Submitting answer for question ${questionId}: ${answers[questionId]}`
-    );
-    // You can add logic here to send the answer to the server/API
-    addAnswer(questionId, answers[questionId]);
+    const userAnswer = answers[questionId];
+    const prevAnswers = previousAnswers[questionId] || [];
+    const updatedAnswers = [...prevAnswers, userAnswer];
+
+    // Update localStorage with the new answer
+    addAnswer(questionId, userAnswer);
+
+    setPreviousAnswers({
+      ...previousAnswers,
+      [questionId]: updatedAnswers,
+    });
+
+    // Clear the input after submitting the answer
+    setAnswers({
+      ...answers,
+      [questionId]: "",
+    });
   };
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
-      <h2 style={{ fontSize: "24px", marginBottom: "20px" }}>User Dashboard</h2>
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        padding: "20px",
+        width: 800,
+        margin: "auto",
+      }}
+    >
+      <h2
+        style={{ fontSize: "24px", marginBottom: "20px", textAlign: "center" }}
+      >
+        User Dashboard
+      </h2>
       <div>
-        <h3 style={{ fontSize: "20px", marginBottom: "10px" }}>Questions</h3>
+        <h3 style={{ fontSize: "20px", marginBottom: "10px" }}>
+          All Questions
+        </h3>
         <ul style={{ listStyleType: "none", padding: "0" }}>
           {questions.map((question) => (
             <li key={question.id} style={{ marginBottom: "20px" }}>
-              <div style={{ marginBottom: "10px" }}>{question.text}</div>
+              <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
+                Question: {question.text}
+              </div>
               <textarea
                 value={answers[question.id] || ""}
                 onChange={(e) =>
@@ -58,17 +91,15 @@ const UserDashboard: React.FC = () => {
                 }}
                 placeholder="Your answer"
               />
-              {Array.isArray(answers[question.id]) && (
+              {previousAnswers[question.id] && (
                 <div
                   style={{ marginTop: "5px", fontSize: "14px", color: "#888" }}
                 >
                   Previous Answers:
                   <ul style={{ listStyleType: "none", padding: 0 }}>
-                    {Array.isArray(answers[question.id]) &&
-                      //@ts-ignore
-                      answers[question.id].map((prevAnswer, index) => (
-                        <li key={index}>{prevAnswer}</li>
-                      ))}
+                    {previousAnswers[question.id].map((prevAnswer, index) => (
+                      <li key={index}>{prevAnswer}</li>
+                    ))}
                   </ul>
                 </div>
               )}

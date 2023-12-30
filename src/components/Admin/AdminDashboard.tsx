@@ -123,61 +123,65 @@ const AdminDashboard: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <span style={{ marginRight: "10px" }}>{question.text}</span>
+                    <div>
+                      <span style={{ marginRight: "10px" }}>
+                        {question.text}
+                      </span>
 
-                    <button
-                      onClick={() => handleEditQuestion(question.id)}
-                      style={{
-                        padding: "5px 10px",
-                        fontSize: "14px",
-                        backgroundColor: "#ffc107",
-                        color: "#000",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        marginRight: "5px",
-                      }}
-                    >
-                      Edit Question
-                    </button>
-                    <button
-                      onClick={() => handleDeleteQuestion(question.id)}
-                      style={{
-                        padding: "5px 10px",
-                        fontSize: "14px",
-                        backgroundColor: "#dc3545",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Delete Question
-                    </button>
-                    {Array.isArray(answers[question.id]) && (
-                      <div
+                      <button
+                        onClick={() => handleEditQuestion(question.id)}
                         style={{
-                          marginTop: "5px",
+                          padding: "5px 10px",
                           fontSize: "14px",
-                          color: "#888",
+                          backgroundColor: "#ffc107",
+                          color: "#000",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                          marginRight: "5px",
                         }}
                       >
-                        User Answers:
-                        <ul
+                        Edit Question
+                      </button>
+                      <button
+                        onClick={() => handleDeleteQuestion(question.id)}
+                        style={{
+                          padding: "5px 10px",
+                          fontSize: "14px",
+                          backgroundColor: "#dc3545",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Delete Question
+                      </button>
+                      {Array.isArray(answers[question.id]) && (
+                        <div
                           style={{
-                            listStyleType: "none",
-                            paddingLeft: 5,
-                            marginBottom: 20,
+                            marginTop: "5px",
+                            fontSize: "14px",
+                            color: "#888",
                           }}
                         >
-                          {Array.isArray(answers[question.id]) &&
-                            //@ts-ignore
-                            answers[question.id].map((prevAnswer, index) => (
-                              <li key={index}>{prevAnswer}</li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
+                          User Answers:
+                          <ul
+                            style={{
+                              listStyleType: "none",
+                              paddingLeft: 5,
+                              marginBottom: 20,
+                            }}
+                          >
+                            {Array.isArray(answers[question.id]) &&
+                              //@ts-ignore
+                              answers[question.id].map((prevAnswer, index) => (
+                                <li key={index}>{prevAnswer}</li>
+                              ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                   </>
                 )}
               </li>
