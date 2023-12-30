@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getQuestions } from "../../utils/API";
+import { getQuestions, addAnswer, getAnswers } from "../../utils/API";
 
 const UserDashboard: React.FC = () => {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -9,12 +9,16 @@ const UserDashboard: React.FC = () => {
     // Fetch questions on component mount
     setQuestions(getQuestions());
 
-    // Simulated previous answers (Replace with actual user answers fetched from API or state)
-    setAnswers({
-      1: "Previous answer 1",
-      2: "Previous answer 2",
-      // Add more answers as needed for different questions
-    });
+    const storedAnswers = getAnswers();
+    const answersObj = storedAnswers.reduce((acc: any, answer: any) => {
+      const { questionId, answerText } = answer;
+      if (!acc[questionId]) {
+        acc[questionId] = [];
+      }
+      acc[questionId].push(answerText);
+      return acc;
+    }, {});
+    setAnswers(answersObj);
   }, []);
 
   const handleAnswerChange = (questionId: number, answer: string) => {
@@ -27,6 +31,7 @@ const UserDashboard: React.FC = () => {
       `Submitting answer for question ${questionId}: ${answers[questionId]}`
     );
     // You can add logic here to send the answer to the server/API
+    addAnswer(questionId, answers[questionId]);
   };
 
   return (
@@ -53,11 +58,18 @@ const UserDashboard: React.FC = () => {
                 }}
                 placeholder="Your answer"
               />
-              {answers[question.id] && (
+              {Array.isArray(answers[question.id]) && (
                 <div
                   style={{ marginTop: "5px", fontSize: "14px", color: "#888" }}
                 >
-                  Previous Answer: {answers[question.id]}
+                  Previous Answers:
+                  <ul style={{ listStyleType: "none", padding: 0 }}>
+                    {Array.isArray(answers[question.id]) &&
+                      //@ts-ignore
+                      answers[question.id].map((prevAnswer, index) => (
+                        <li key={index}>{prevAnswer}</li>
+                      ))}
+                  </ul>
                 </div>
               )}
               <button

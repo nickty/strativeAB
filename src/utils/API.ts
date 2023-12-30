@@ -85,13 +85,36 @@ export const getAnswersForQuestion = (questionId: number): Answer[] => {
   return answers.filter((answer: Answer) => answer.questionId === questionId);
 };
 
+// // Function to add a new answer to localStorage
+// export const addAnswer = (newAnswer: Answer) => {
+//   let storedAnswers = localStorage.getItem('answers');
+//   const answers = storedAnswers ? JSON.parse(storedAnswers) : [];
+//   answers.push(newAnswer);
+//   localStorage.setItem('answers', JSON.stringify(answers));
+// };
+
 // Function to add a new answer to localStorage
-export const addAnswer = (newAnswer: Answer) => {
+export const addAnswer = (questionId: number, answerText: string) => {
   let storedAnswers = localStorage.getItem('answers');
   const answers = storedAnswers ? JSON.parse(storedAnswers) : [];
+
+  // Generating a new answer object
+  const newAnswer = {
+    id: answers.length + 1, // Generating a unique ID (Replace this with your logic for generating IDs)
+    questionId: questionId,
+    answerText: answerText,
+  };
+
   answers.push(newAnswer);
   localStorage.setItem('answers', JSON.stringify(answers));
 };
+
+// Function to get answers from localStorage
+export const getAnswers = () => {
+  const storedAnswers = localStorage.getItem('answers');
+  return storedAnswers ? JSON.parse(storedAnswers) : [];
+};
+
 
 // Function to update an existing answer in localStorage
 export const updateAnswer = (updatedAnswer: Answer) => {
