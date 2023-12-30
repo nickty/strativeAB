@@ -20,11 +20,12 @@ const Home: React.FC = () => {
   };
   return (
     <div style={containerStyle}>
-      <h2 style={headingStyle}>Welcome to the Quiz App</h2>
-      <p style={paragraphStyle}>This is the landing page of the Quiz App.</p>
+      <h2 style={headingStyle}>Welcome to the Quiz App For Strativ AB</h2>
+      <p style={paragraphStyle}>
+        This app is created with React, Typescript, LocalStorage
+      </p>
       <p>
         <Link to="/signin">Sign In</Link>{" "}
-        {/* Update the route according to your setup */}
       </p>
     </div>
   );

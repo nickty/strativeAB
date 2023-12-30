@@ -6,6 +6,7 @@ import {
   updateQuestionInLocalStorage,
   getAnswers,
 } from "../../utils/API";
+import { Link } from "react-router-dom";
 
 const AdminDashboard: React.FC = () => {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -75,10 +76,15 @@ const AdminDashboard: React.FC = () => {
   return (
     <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
       <h2
-        style={{ fontSize: "24px", marginBottom: "20px", textAlign: "center" }}
+        style={{
+          fontSize: "24px",
+          marginBottom: "20px",
+          textAlign: "center",
+        }}
       >
         Admin Dashboard
       </h2>
+
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <div>
           <h3 style={{ fontSize: "20px", marginBottom: "10px" }}>
@@ -219,6 +225,9 @@ const AdminDashboard: React.FC = () => {
             Add Question
           </button>
         </div>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
+        <Link to="/signin">Back To Sign In</Link>{" "}
       </div>
     </div>
   );

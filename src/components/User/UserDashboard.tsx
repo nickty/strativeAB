@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getQuestions, addAnswer, getAnswers } from "../../utils/API";
+import { Link } from "react-router-dom";
 
 const UserDashboard: React.FC = () => {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -121,6 +122,9 @@ const UserDashboard: React.FC = () => {
             </li>
           ))}
         </ul>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
+        <Link to="/signin">Back To Sign In</Link>{" "}
       </div>
     </div>
   );
