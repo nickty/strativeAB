@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getQuestions, addQuestion, deleteQuestion } from "../../utils/API";
+import {
+  getQuestions,
+  addQuestion,
+  deleteQuestion,
+  updateQuestionInLocalStorage,
+} from "../../utils/API";
 
 const AdminDashboard: React.FC = () => {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -49,6 +54,7 @@ const AdminDashboard: React.FC = () => {
       setQuestions(updatedQuestions);
       setEditingQuestionId(null);
       setUpdatedQuestionText("");
+      updateQuestionInLocalStorage(editingQuestionId, updatedQuestionText);
     }
   };
 

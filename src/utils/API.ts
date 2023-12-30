@@ -60,6 +60,24 @@ export const deleteQuestion = (id: number) => {
   localStorage.setItem('questions', JSON.stringify(updatedQuestions));
 };
 
+const getQuestionsFromLocalStorage = (): Question[] => {
+  const storedQuestions = localStorage.getItem('questions');
+  return storedQuestions ? JSON.parse(storedQuestions) : [];
+};
+
+const setQuestionsToLocalStorage = (questions: Question[]) => {
+  localStorage.setItem('questions', JSON.stringify(questions));
+};
+
+// Function to update a specific question in localStorage
+export const updateQuestionInLocalStorage = (id: number, updatedText: string) => {
+  const storedQuestions = getQuestionsFromLocalStorage();
+  const updatedQuestions = storedQuestions.map((question: Question) =>
+    question.id === id ? { ...question, text: updatedText } : question
+  );
+  setQuestionsToLocalStorage(updatedQuestions);
+};
+
 // Function to fetch answers for a specific question from localStorage
 export const getAnswersForQuestion = (questionId: number): Answer[] => {
   const storedAnswers = localStorage.getItem('answers');
