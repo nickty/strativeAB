@@ -41,11 +41,11 @@ export const updateQuestionInLocalStorage = (id: number, updatedText: string) =>
 };
 
 // Function to fetch answers for a specific question from localStorage
-export const getAnswersForQuestion = (questionId: number): Answer[] => {
-  const storedAnswers = localStorage.getItem('answers');
-  const answers = storedAnswers ? JSON.parse(storedAnswers) : [];
-  return answers.filter((answer: Answer) => answer.questionId === questionId);
-};
+// export const getAnswersForQuestion = (questionId: number): Answer[] => {
+//   const storedAnswers = localStorage.getItem('answers');
+//   const answers = storedAnswers ? JSON.parse(storedAnswers) : [];
+//   return answers.filter((answer: Answer) => answer.questionId === questionId);
+// };
 
 export const addAnswer = (questionId: number, answerText: string) => {
   let storedAnswers = localStorage.getItem('answers');
@@ -70,14 +70,14 @@ export const getAnswers = () => {
 
 
 // Function to update an existing answer in localStorage
-export const updateAnswer = (updatedAnswer: Answer) => {
-  let storedAnswers = localStorage.getItem('answers');
-  const answers = storedAnswers ? JSON.parse(storedAnswers) : [];
-  const updatedAnswers = answers.map((answer: Answer) =>
-    answer.id === updatedAnswer.id ? updatedAnswer : answer
-  );
-  localStorage.setItem('answers', JSON.stringify(updatedAnswers));
-};
+// export const updateAnswer = (updatedAnswer: Answer) => {
+//   let storedAnswers = localStorage.getItem('answers');
+//   const answers = storedAnswers ? JSON.parse(storedAnswers) : [];
+//   const updatedAnswers = answers.map((answer: Answer) =>
+//     answer.id === updatedAnswer.id ? updatedAnswer : answer
+//   );
+//   localStorage.setItem('answers', JSON.stringify(updatedAnswers));
+// };
 
 // Function to delete an answer from localStorage
 export const deleteAnswer = (id: number) => {
